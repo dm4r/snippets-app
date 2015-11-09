@@ -26,10 +26,13 @@ def get(name):
     cursor = connection.cursor()
     command = "select keyword, message from snippets where keyword=(%s)"
     cursor.execute(command, (name,))
-    message = cursor.fetchone()
+    row = cursor.fetchone()
     connection.commit()
+    if not row:
+        logging.info("Snippet '{}' not found and user notified".format(name))
+        return print("Snippet '{}' not found, please try again!".format(name))
     logging.debug("Snippet message sucessfully retrieved!")
-    return message[1]
+    return row[1]
 
 def main():
     """Main function"""
