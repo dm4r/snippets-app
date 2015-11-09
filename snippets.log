@@ -13,3 +13,49 @@ INFO:root:Constructing parser
 DEBUG:root:Constructing put subparser
 INFO:root:Constructing parser
 DEBUG:root:Constructing put subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subPARSER
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subPARSER
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subPARSER
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subPARSER
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subPARSER
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subparser
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subparser
+ERROR:root:FIXME: Unimplemented - put('test', 'this is a test snippet string')
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subparser
+ERROR:root:FIXME: Unimplemented - get('test')
+INFO:root:Constructing parser
+DEBUG:root:Constructing put subparser
+DEBUG:root:Constructing get subparser
