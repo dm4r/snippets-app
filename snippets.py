@@ -13,29 +13,22 @@ logging.debug("Database connection established, get to work!")
 def put(name, snippet):
     """Store a snippet with an associated name."""
     logging.info("Storing snippet {!r}: {!r}".format(name, snippet))
-    cursor = connection.cursor()
-    # TODO error handling for duplicates so the way to handle
-    # this is with try and except.
     try:
-        command = "insert into snippets values (%s, %s)"
-        cursor.execute(command, (name, snippet))
+        with connection, connection.cursor() as cursor:
+            cursor.execute("insert into snippets values (%s, %s)", (name, snippet))
     except psycopg2.IntegrityError as e:
-        connection.rollback()
-        command = "update snippets set message=%s where keyword=%s"
-        cursor.execute(command, (snippet, name))
-        logging.debug("Duplicate snippet name used, existing snippet updated in place using an UPSERT.")
-    connection.commit()
+        with connection, connection.cursor() as cursor:
+            cursor.execute("update snippets set message=%s where keyword=%s", (snippet, name))
+            logging.debug("Duplicate snippet name used, existing snippet updated in place using an UPSERT.")
     logging.debug("Snippet stored successfully!")
     return name, snippet
 
 def get(name):
     """Retrieve the snippet with a given name."""
     logging.info("Retrieving snippet {!r}".format(name))
-    cursor = connection.cursor()
-    command = "select keyword, message from snippets where keyword=(%s)"
-    cursor.execute(command, (name,))
-    row = cursor.fetchone()
-    connection.commit()
+    with connection, connection.cursor() as cursor:
+        cursor.execute("select keyword, message from snippets where keyword=(%s)", (name,))
+        row = cursor.fetchone()
     if not row:
         logging.info("Snippet '{}' not found and user notified".format(name))
         return print("Snippet '{}' not found, please try again!".format(name))
