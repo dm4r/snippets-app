@@ -35,6 +35,15 @@ def get(name):
     logging.debug("Snippet message sucessfully retrieved!")
     return row[1]
 
+def catalog():
+    """Query for a list of keywords from the snippets table"""
+    logging.info("Retrieving keywords from database")
+    with connection, connection.cursor() as cursor:
+        cursor.execute("select keyword from snippets order by keyword asc;")
+        row = cursor.fetchall()
+    logging.debug("Snippet message sucessfully retrieved!")
+    return row
+
 def main():
     """Main function"""
     logging.info("Constructing parser")
@@ -53,7 +62,13 @@ def main():
     get_parser = subparsers.add_parser("get", help = "Get a stored snippet")
     get_parser.add_argument("name", help = "The name of the snippet")
 
+    # Subparser for the catalog command
+    logging.debug("Constructing catalog subparser")
+    catalog_parser = subparsers.add_parser("catalog", help = "List a catalog of snippets stored")
+#    get_parser.add_argument("catalog", help = "Directive to catalog all keywords stored")
+
     arguments = parser.parse_args(sys.argv[1:])
+
     # Convert parsed arguments from Namespace to dictionary
     arguments = vars(arguments)
     command = arguments.pop("command")
@@ -64,6 +79,9 @@ def main():
     elif command == "get":
         snippet = get(**arguments)
         print("Retrieved snippet: {!r}".format(snippet))
+    elif command == "catalog":
+        keyword = catalog(**arguments)
+        print("Retrieved catalog: {!r}".format(keyword))
 
 if __name__ == "__main__":
     main()
