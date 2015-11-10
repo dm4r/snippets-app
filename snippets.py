@@ -40,9 +40,21 @@ def catalog():
     logging.info("Retrieving keywords from database")
     with connection, connection.cursor() as cursor:
         cursor.execute("select keyword from snippets order by keyword asc;")
-        row = cursor.fetchall()
-    logging.debug("Snippet message sucessfully retrieved!")
-    return row
+        keywords = cursor.fetchall()
+    logging.debug("Catalog of keywords sucessfully retrieved!")
+    return keywords
+
+def search(term):
+    """Search is a means of listing snippets which contain a given string anywhere in their messages"""
+    logging.info("Retrieving messages containing string: {!r}".format(term))
+    with connection, connection.cursor() as cursor:
+        cursor.execute("select * from snippets where message like '%{}%'".format(term,))
+        results = cursor.fetchall()
+    if not results:
+        logging.info("Search string '{}' not found in any snippets and user notified".format(term))
+        return print("Search string '{}' not found in any snippets, try another!".format(term))
+    logging.debug("Messages containing search string sucessfully retrieved!")
+    return results
 
 def main():
     """Main function"""
@@ -65,7 +77,11 @@ def main():
     # Subparser for the catalog command
     logging.debug("Constructing catalog subparser")
     catalog_parser = subparsers.add_parser("catalog", help = "List a catalog of snippets stored")
-#    get_parser.add_argument("catalog", help = "Directive to catalog all keywords stored")
+
+    # Subparser for the search command
+    logging.debug("Constructing search subparser")
+    search_parser = subparsers.add_parser("search", help = "Search for string in a stored snippet")
+    search_parser.add_argument("term", help = "The search term string")
 
     arguments = parser.parse_args(sys.argv[1:])
 
@@ -82,6 +98,9 @@ def main():
     elif command == "catalog":
         keyword = catalog(**arguments)
         print("Retrieved catalog: {!r}".format(keyword))
+    elif command == "search":
+        term = search(**arguments)
+        print("Snippets containing the search term: {!r}".format(term))
 
 if __name__ == "__main__":
     main()
